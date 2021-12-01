@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c7a8155161f8144ad46a73004f9747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Obsctacle: {fileID: 1708612146}
+  obstacle: {fileID: 1708612146}
 --- !u!50 &1708612146
 Rigidbody2D:
   serializedVersion: 4
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fa919a085fbda47811a46bcf3d6ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PositionsCount: 3
+  positionsCount: 3
   Player: {fileID: 1844378722}
 --- !u!61 &1844378724
 BoxCollider2D:
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fa919a085fbda47811a46bcf3d6ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PositionsCount: 3
+  positionsCount: 3
   Player: {fileID: 2023602286}
 --- !u!61 &2023602288
 BoxCollider2D:
