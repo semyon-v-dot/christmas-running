@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,14 +8,14 @@ using UnityEngine.Serialization;
 public class PlayerMovement : MonoBehaviour
 {
     [FormerlySerializedAs("PositionsCount")] public int positionsCount = 3;
-    public Rigidbody2D Player;
+    [FormerlySerializedAs("Player")] public Rigidbody2D player;
     
     private const int CameraHeight = 1080;
-    private List<float> positions;
+    public List<float> positions;
     private int currentPosition;
-    private readonly Dictionary<KeyCode, int> controls = new Dictionary<KeyCode, int>();
     private RectTransform rectTransform;
-    
+    public Dictionary<int, Size> Sizes;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,49 +23,38 @@ public class PlayerMovement : MonoBehaviour
         {
             throw new Exception("Main camera is null");
         }
-
-        Player = GetComponent<Rigidbody2D>();
-
-        SetControls();
         
+        player = GetComponent<Rigidbody2D>();
         rectTransform = GetComponent<RectTransform>();
-        
         CalculateAndAddPositions();
+        CalculateAndAddPlayerSizes();
+        currentPosition = positionsCount / 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetKeyDown(KeyCode.W) && currentPosition < positionsCount - 1)
         {
-            foreach (var key in controls.Keys.Where(Input.GetKeyDown))
-            {
-                if (controls[key] > 0 && currentPosition < positionsCount - 1 
-                    || controls[key] < 0 && currentPosition > 0)
-                {
-                    currentPosition += controls[key];
-                }
-            }
+            currentPosition++;
+
+            UpdatePlayerSize();
+        }
+        else if (Input.GetKeyDown(KeyCode.S) && currentPosition > 0)
+        {
+            currentPosition--;
+
+            UpdatePlayerSize();
         }
 
-        Player.MovePosition(new Vector2(Player.position.x, positions[currentPosition]));
+        player.MovePosition(new Vector2(player.position.x, positions[currentPosition]));
     }
-    
-    private void SetControls()
+
+    private void UpdatePlayerSize()
     {
-        switch (Player.name)
-        {
-            case "Player2":
-                controls[KeyCode.DownArrow] = -1;
-                controls[KeyCode.UpArrow] = 1;
-                break;
-            case "Player1":
-                controls[KeyCode.S] = -1;
-                controls[KeyCode.W] = 1;
-                break;
-        }
+        player.transform.localScale = new Vector3(Sizes[currentPosition + 1].Width, Sizes[currentPosition + 1].Height);
     }
-    
+
     private void CalculateAndAddPositions()
     {
         var lineSize = CameraHeight / positionsCount;
@@ -73,6 +63,17 @@ public class PlayerMovement : MonoBehaviour
         for (var i = 0; i < positionsCount; i++)
         {
             positions.Add(i * lineSize - CameraHeight / 2 + rectTransform.localScale.y);
+        }
+    }
+
+    private void CalculateAndAddPlayerSizes()
+    {
+        Sizes = new Dictionary<int, Size>();
+        var localScale = rectTransform.localScale;
+        
+        for (var i = 1; i <= positionsCount; i++)
+        {
+            Sizes[i] = new Size((int)(localScale.x / i * 1.5), (int)(localScale.y / i * 1.5));
         }
     }
 }
