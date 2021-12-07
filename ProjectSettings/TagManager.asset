@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -41,21 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BackgroundPlayer2
-    uniqueID: 448603025
-    locked: 0
-  - name: GameObjectsPlayer2
-    uniqueID: 1773908981
-    locked: 0
-  - name: Player2
-    uniqueID: 4067384609
-    locked: 0
-  - name: BackgroungPLayer1
+  - name: BackgroungPlayer
     uniqueID: 1014022495
     locked: 0
-  - name: GameObjectsPlayer1
+  - name: GameObjectsPlayer
     uniqueID: 2140787227
     locked: 0
-  - name: Player1
+  - name: Player
     uniqueID: 2750313765
     locked: 0
