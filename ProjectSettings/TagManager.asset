@@ -13,12 +13,12 @@ TagManager:
   - UI
   - 
   - 
+  - Background
+  - GameObjectsPlayer2
+  - Player2
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - GameObjectsPlayer1
+  - Player1
   - 
   - 
   - 
@@ -40,4 +40,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackgroundPlayer2
+    uniqueID: 448603025
+    locked: 0
+  - name: GameObjectsPlayer2
+    uniqueID: 1773908981
+    locked: 0
+  - name: Player2
+    uniqueID: 4067384609
+    locked: 0
+  - name: BackgroungPLayer1
+    uniqueID: 1014022495
+    locked: 0
+  - name: GameObjectsPlayer1
+    uniqueID: 2140787227
+    locked: 0
+  - name: Player1
+    uniqueID: 2750313765
     locked: 0
