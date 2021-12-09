@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Obstacle
+  - Snowdrift
+  - Fir
+  - Snowman
+  - Deer
+  - Gift
+  - Snowball
   layers:
   - Default
   - TransparentFX
@@ -14,12 +19,12 @@ TagManager:
   - UI
   - 
   - 
-  - Background
-  - GameObjectsPlayer2
-  - Player2
   - 
-  - GameObjectsPlayer1
-  - Player1
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -42,12 +47,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BackgroungPlayer
-    uniqueID: 1014022495
+  - name: Background
+    uniqueID: 1070758841
     locked: 0
-  - name: GameObjectsPlayer
-    uniqueID: 2140787227
+  - name: GameObjects
+    uniqueID: 3220453297
     locked: 0
   - name: Player
-    uniqueID: 2750313765
+    uniqueID: 1334681021
+    locked: 0
+  - name: GUI
+    uniqueID: 1446029365
     locked: 0
