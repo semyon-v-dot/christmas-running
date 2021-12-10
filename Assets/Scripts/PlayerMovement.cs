@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D Player;
     public GameObject Freeze;
+    public GameObject GameOverScreen;
     public GameObject PauseScreen;
     public List<Rigidbody2D> Obstacles;
 
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         if (timer.Elapsed.Seconds >= 5)
         {
             timer.Reset();
+            ClearEffects();
         }
         
         if (isMoving)
@@ -106,6 +108,20 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    public void Pause()
+    {
+        timer.Stop();
+        Time.timeScale = 0;
+        PauseScreen.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        timer.Start();
+        Time.timeScale = 1;
+        PauseScreen.SetActive(false);
+    }
+
     private void ResetObstacles()
     {
         foreach (var obstacle in Obstacles)
@@ -119,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
     public void ResetPlayer()
     {
         Freeze.SetActive(false);
+        GameOverScreen.SetActive(false);
         PauseScreen.SetActive(false);
         isControlChanged = false;
         normalSpeed = 0.12f;
@@ -165,5 +182,96 @@ public class PlayerMovement : MonoBehaviour
         }
         
         return false;
+    }
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Snowdrift"))
+        {
+            timer.Restart();
+            ReverseControl();
+            SlowDown();
+        }
+
+        if (other.CompareTag("Deer"))
+        {
+            timer.Restart();
+            SetDestination(2);
+            ReverseControl();
+        }
+
+        if (other.CompareTag("Fir"))
+        {
+            timer.Restart();
+            SetDestination(0);
+            ReverseControl();
+        }
+
+        if (other.CompareTag("Snowman"))
+        {
+            GameOver();
+        }
+
+        if (other.CompareTag("Gift"))
+        {
+            timer.Reset();
+            ClearEffects();
+            IncreaseScore(3);
+        }
+
+        if (other.CompareTag("Snowball"))
+        {
+            timer.Reset();
+            SlowDown();
+        }
+    }
+
+    private void ReverseControl()
+    {
+        isControlChanged = true;
+        timer.Start();
+        Freeze.SetActive(true);
+    }
+
+    private void SlowDown()
+    {
+        speed = slowSpeed;
+    }
+
+    private void SetDestination(int dest)
+    {
+        if (currentPosition == dest)
+            return;
+        
+        if (currentPosition < dest)
+        {
+            movement = 1;
+        }
+        else if (currentPosition > dest)
+        {
+            movement = -1;
+        }
+        
+        destination = dest;
+        isMoving = true;
+    }
+
+    private void ClearEffects()
+    {
+        isControlChanged = false;
+        speed = normalSpeed;
+        Freeze.SetActive(false);
+    }
+
+    private void GameOver()
+    {
+        timer.Stop();
+        Time.timeScale = 0;
+        GameOverScreen.SetActive(true);
+    }
+
+    private void IncreaseScore(int score)
+    {
+        Score += score;
     }
 }
