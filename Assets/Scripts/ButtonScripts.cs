@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+#region
+
 using UnityEngine;
+
+#endregion
 
 public class NewBehaviourScript : MonoBehaviour
 {
     public PlayerMovement player;
-    
+
     public void RestartButton()
     {
-        player.ResetPlayer(); 
+        player.ResetLevel();
     }
 }

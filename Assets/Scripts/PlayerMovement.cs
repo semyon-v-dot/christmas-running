@@ -1,11 +1,11 @@
+#region
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
+
+#endregion
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private List<float> positions;
 
     public int Score;
-    
+    public int MaxScore;
+
     private bool isControlChanged;
 
     private float speed;
@@ -38,9 +39,11 @@ public class PlayerMovement : MonoBehaviour
     private Stopwatch timer;
 
     private GUIStyle style;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        TryLoadScore();
         Application.targetFrameRate = 60;
         Player = GetComponent<Rigidbody2D>();
         positions = new List<float>
@@ -60,14 +63,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (timer.Elapsed.Seconds >= 5)
         {
             timer.Reset();
             ClearEffects();
         }
-        
+
         if (isMoving)
         {
             Move();
@@ -77,13 +80,8 @@ public class PlayerMovement : MonoBehaviour
             var currentMovement = 0;
 
             if (Input.GetKeyDown(KeyCode.W))
-            {
                 currentMovement = 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                currentMovement = -1;
-            }
+            else if (Input.GetKeyDown(KeyCode.S)) currentMovement = -1;
 
             if (isControlChanged)
                 currentMovement *= -1;
@@ -96,8 +94,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    
-    public void OnGUI() {
+
+    public void OnGUI()
+    {
         GUI.Label(new Rect(1000, 10, 100, 20), Score.ToString(), style);
     }
 
@@ -173,14 +172,14 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnLine()
     {
         var position = Player.position;
-        
+
         if (Math.Abs(position.y - positions[destination]) < speed)
         {
             Player.position = new Vector2(position.x, positions[destination]);
             currentPosition = destination;
             return true;
         }
-        
+
         return false;
     }
 
@@ -188,29 +187,49 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Snowdrift"))
         {
-            timer.Restart();
-            ReverseControl();
-            SlowDown();
+            if (isControlChanged)
+            {
+                GameOver();
+            }
+            else
+            {
+                timer.Restart();
+                ReverseControl();
+                SlowDown();
+            }
         }
 
         if (other.CompareTag("Deer"))
         {
-            timer.Restart();
-            SetDestination(2);
-            ReverseControl();
+            if (isControlChanged)
+            {
+                GameOver();
+            }
+            else
+            {
+                timer.Restart();
+                if (IsDestinationCorrect(1))
+                    SetDestination(currentPosition + 1);
+                ReverseControl();
+            }
         }
 
         if (other.CompareTag("Fir"))
         {
-            timer.Restart();
-            SetDestination(0);
-            ReverseControl();
+            if (isControlChanged)
+            {
+                GameOver();
+            }
+            else
+            {
+                timer.Restart();
+                if (IsDestinationCorrect(-1))
+                    SetDestination(currentPosition - 1);
+                ReverseControl();
+            }
         }
 
-        if (other.CompareTag("Snowman"))
-        {
-            GameOver();
-        }
+        if (other.CompareTag("Snowman")) GameOver();
 
         if (other.CompareTag("Gift"))
         {
@@ -242,16 +261,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (currentPosition == dest)
             return;
-        
-        if (currentPosition < dest)
-        {
-            movement = 1;
-        }
-        else if (currentPosition > dest)
-        {
-            movement = -1;
-        }
-        
+
+        movement = currentPosition < dest ? 1 : -1;
+
         destination = dest;
         isMoving = true;
     }
@@ -267,11 +279,29 @@ public class PlayerMovement : MonoBehaviour
     {
         timer.Stop();
         Time.timeScale = 0;
+
+        if (Score > MaxScore)
+        {
+            MaxScore = Score;
+            SaveScore();
+        }
+
         GameOverScreen.SetActive(true);
     }
 
     private void IncreaseScore(int score)
     {
         Score += score;
+    }
+
+    private void SaveScore()
+    {
+        PlayerPrefs.SetInt("MaxScore", MaxScore);
+        PlayerPrefs.Save();
+    }
+
+    private void TryLoadScore()
+    {
+        if (PlayerPrefs.HasKey("MaxScore")) MaxScore = PlayerPrefs.GetInt("MaxScore");
     }
 }

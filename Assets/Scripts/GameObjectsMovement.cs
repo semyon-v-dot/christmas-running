@@ -1,9 +1,10 @@
-using System;
-using System.Collections;
+#region
+
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
+
+#endregion
 
 public class GameObjectsMovement : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class GameObjectsMovement : MonoBehaviour
     private bool didThrowSnowball;
 
     private Dictionary<string, List<int>> availableLines;
+
     private List<float> positions;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         GameObject = GetComponent<Rigidbody2D>();
         speed = 3f;
@@ -35,15 +38,12 @@ public class GameObjectsMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var position = GameObject.position;
         GameObject.position = new Vector2(position.x - speed * Time.deltaTime, position.y);
-        
-        if (!didThrowSnowball && GameObject.CompareTag("Snowman"))
-        {
-            TryThrowSnowball();
-        }
+
+        if (!didThrowSnowball && GameObject.CompareTag("Snowman") && IsObjectOnScreen()) TryThrowSnowball();
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -58,10 +58,21 @@ public class GameObjectsMovement : MonoBehaviour
                 line = random.Next(3);
             } while (!availableLines[GameObject.tag].Contains(line));
 
-            Time.timeScale += 0.05f;
+            if (Time.timeScale < 3)
+                Time.timeScale += 0.05f;
             didThrowSnowball = false;
-            GameObject.position = new Vector2(60, positions[line]);
+            GameObject.position = new Vector2(GetNewPosition(), positions[line]);
         }
+    }
+
+    private bool IsObjectOnScreen()
+    {
+        return GameObject.position.x < 9;
+    }
+
+    private static float GetNewPosition()
+    {
+        return 60 * (1 + (Time.timeScale - 1) / 2);
     }
 
     private void TryThrowSnowball()
