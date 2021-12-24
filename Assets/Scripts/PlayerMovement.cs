@@ -80,9 +80,10 @@ public class PlayerMovement : MonoBehaviour
         {
             var currentMovement = 0;
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                 currentMovement = 1;
-            else if (Input.GetKeyDown(KeyCode.S)) currentMovement = -1;
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) 
+                currentMovement = -1;
 
             if (isControlChanged)
                 currentMovement *= -1;
