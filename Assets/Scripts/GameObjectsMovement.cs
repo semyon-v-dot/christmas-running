@@ -15,7 +15,7 @@ public class GameObjectsMovement : MonoBehaviour
 
     private Dictionary<string, List<int>> availableLines;
 
-    private List<float> positions;
+    private Dictionary<string, List<float>> positions;
 
     // Start is called before the first frame update
     private void Start()
@@ -30,9 +30,13 @@ public class GameObjectsMovement : MonoBehaviour
             { "Gift", new List<int> { 0, 1, 2 } },
             { "Fir", new List<int> { 1, 2 } }
         };
-        positions = new List<float>
+        positions = new Dictionary<string, List<float>>
         {
-            -3, 0, 3
+            { "Deer", new List<float> { -0.15f, 3.65f, 7.37f }},
+            { "Snowman", new List<float> { -2.61f, -1.18f, 0.2f }},
+            { "Snowdrift", new List<float> { -6.29f, -3.2f, -0.23f }},
+            { "Gift", new List<float> { -3, 0.1f, 3.1f }},
+            { "Fir", new List<float> { 0.1f, 1.35f, 2.6f }},
         };
         didThrowSnowball = false;
     }
@@ -43,7 +47,8 @@ public class GameObjectsMovement : MonoBehaviour
         var position = GameObject.position;
         GameObject.position = new Vector2(position.x - speed * Time.deltaTime, position.y);
 
-        if (!didThrowSnowball && GameObject.CompareTag("Snowman") && IsObjectOnScreen()) TryThrowSnowball();
+        if (!didThrowSnowball && GameObject.CompareTag("Snowman") && IsObjectOnScreen()) 
+            TryThrowSnowball();
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -58,21 +63,21 @@ public class GameObjectsMovement : MonoBehaviour
                 line = random.Next(3);
             } while (!availableLines[GameObject.tag].Contains(line));
 
-            if (Time.timeScale < 3)
-                Time.timeScale += 0.05f;
+            if (Time.timeScale < 6)
+                Time.timeScale += 0.1f;
             didThrowSnowball = false;
-            GameObject.position = new Vector2(GetNewPosition(), positions[line]);
+            GameObject.transform.Translate(GetNewPosition(), 0, 0);
         }
     }
 
     private bool IsObjectOnScreen()
     {
-        return GameObject.position.x < 9;
+        return GameObject.position.x < -7;
     }
 
     private static float GetNewPosition()
     {
-        return 60 * (1 + (Time.timeScale - 1) / 2);
+        return 90 * (1 + (Time.timeScale - 1) / 4);
     }
 
     private void TryThrowSnowball()
