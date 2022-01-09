@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject Freeze;
     public GameObject GameOverScreen;
     public GameObject PauseScreen;
+    public GameObject SettingsButton;
     public List<Rigidbody2D> Obstacles;
 
     private List<float> positions;
@@ -136,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         Freeze.SetActive(false);
         GameOverScreen.SetActive(false);
         PauseScreen.SetActive(false);
+        SettingsButton.SetActive(true);
         isControlChanged = false;
         normalSpeed = 0.12f;
         slowSpeed = 0.06f;
@@ -287,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         GameOverScreen.SetActive(true);
+        SettingsButton.SetActive(false);
     }
 
     private void IncreaseScore(int score)
