@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
 
 #endregion
 
@@ -18,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
 
     private List<float> positions;
 
+    public Text ScoreLabel;
+	public Text ScoreLabelFromAd;
+	public Text ScoreLabelFromPause;
+	public Text ScoreLabelFromGameOver;
+	public Text ScoreLabelBestFromGameOver;
     public int Score;
     public int MaxScore;
 
@@ -98,8 +104,79 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnGUI()
     {
-        GUI.Label(new Rect(1000, 10, 100, 20), Score.ToString(), style);
+        ScoreLabel.text = Score.ToString();
+        ChangeScoreLabelRectTransform();
+		
+		ScoreLabelFromAd.text = ScoreLabel.text;
+		ChangeScoreLabelFromAdRectTransform();
+		
+		ScoreLabelFromPause.text = ScoreLabel.text;
+		ChangeScoreLabelFromPauseRectTransform();
+		
+		ScoreLabelFromGameOver.text = ScoreLabel.text;
+		ChangeScoreLabelFromGameOverRectTransform();
+        
+		ScoreLabelBestFromGameOver.text = MaxScore.ToString();
+        ChangeScoreLabelBestFromGameOverRectTransform();
     }
+
+    public void ChangeScoreLabelRectTransform()
+    {
+		int charWidth = 15;
+        RectTransform rt = ScoreLabel.GetComponent<RectTransform>();
+        if (ScoreLabel.text.Length * charWidth > rt.sizeDelta.x)
+        {
+            var newWidth = ScoreLabel.text.Length * charWidth;
+            rt.sizeDelta = new Vector2(newWidth, rt.sizeDelta.y);
+            rt.localPosition = new Vector2(rt.localPosition.x - charWidth / 2 , rt.localPosition.y);
+        }
+        
+    }
+	public void ChangeScoreLabelFromAdRectTransform()
+    {
+		int charWidth = 15;
+		RectTransform rt = ScoreLabelFromAd.GetComponent<RectTransform>();
+        if (ScoreLabelFromAd.text.Length * charWidth > rt.sizeDelta.x)
+        {
+            var newWidth = ScoreLabelFromAd.text.Length * charWidth;
+            rt.sizeDelta = new Vector2(newWidth, rt.sizeDelta.y);
+            //rt.localPosition = new Vector2(rt.localPosition.x - charWidth / 2 , rt.localPosition.y);
+        }
+	}
+	public void ChangeScoreLabelFromPauseRectTransform()
+    {
+		int charWidth = 22;
+		RectTransform rt = ScoreLabelFromPause.GetComponent<RectTransform>();
+        if (ScoreLabelFromPause.text.Length * charWidth > rt.sizeDelta.x)
+        {
+            var newWidth = ScoreLabelFromPause.text.Length * charWidth;
+            rt.sizeDelta = new Vector2(newWidth, rt.sizeDelta.y);
+        }
+	}
+	
+	public void ChangeScoreLabelFromGameOverRectTransform()
+    {
+		int charWidth = 29;
+		RectTransform rt = ScoreLabelFromGameOver.GetComponent<RectTransform>();
+        if (ScoreLabelFromGameOver.text.Length * charWidth > rt.sizeDelta.x)
+        {
+            var newWidth = ScoreLabelFromGameOver.text.Length * charWidth;
+            rt.sizeDelta = new Vector2(newWidth, rt.sizeDelta.y);
+            //rt.localPosition = new Vector2(rt.localPosition.x + charWidth / 2 , rt.localPosition.y);
+        }
+	}
+	
+	public void ChangeScoreLabelBestFromGameOverRectTransform()
+    {
+		int charWidth = 22;
+		RectTransform rt = ScoreLabelBestFromGameOver.GetComponent<RectTransform>();
+        if (ScoreLabelBestFromGameOver.text.Length * charWidth > rt.sizeDelta.x)
+        {
+            var newWidth = ScoreLabelBestFromGameOver.text.Length * charWidth;
+            rt.sizeDelta = new Vector2(newWidth, rt.sizeDelta.y);
+            //rt.localPosition = new Vector2(rt.localPosition.x + charWidth / 2 , rt.localPosition.y);
+        }
+	}
 
     public void ResetLevel()
     {
