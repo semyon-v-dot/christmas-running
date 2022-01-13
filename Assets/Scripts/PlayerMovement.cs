@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
     private GUIStyle style;
 
+    private int timeCounter;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -80,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMoving)
         {
+            timeCounter++;
             Move();
         }
         else
@@ -239,12 +242,13 @@ public class PlayerMovement : MonoBehaviour
         if (!IsOnLine())
         {
             var position = Player.position;
-            Player.position = new Vector2(position.x, position.y + speed * movement);
+            Player.position = new Vector2(position.x, position.y + speed * movement * Convert.ToSingle(Math.Log(timeCounter) / 1.5));
         }
         else
         {
             movement = 0;
             isMoving = false;
+            timeCounter = 0;
         }
     }
 
