@@ -9,7 +9,7 @@ public class ScoreLoad : MonoBehaviour
 
     public void Start()
     {
-        int MaxScore = PlayerPrefs.HasKey("MaxScore") ? PlayerPrefs.GetInt("MaxScore") : -1;
+        int MaxScore = PlayerPrefs.HasKey("MaxScore") ? PlayerPrefs.GetInt("MaxScore") : 0;
         ScoreLabel.text = MaxScore.ToString();
 
         int charWidth = 15;
