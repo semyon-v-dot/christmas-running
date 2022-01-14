@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     private List<float> positions;
 
+    public GameObject ParticleSystem;
+
     public Text ScoreLabel;
 	public Text ScoreLabelFromAd;
 	public Text ScoreLabelFromPause;
@@ -82,11 +84,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMoving)
         {
+            ParticleSystem.SetActive(false);
             timeCounter++;
             Move();
         }
         else
         {
+            ParticleSystem.SetActive(true);
             var currentMovement = 0;
 
             if (Input.GetKeyDown(KeyCode.W))
