@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
         };
 
         sdk = YandexSDK.instance;
-        sdk.onRewardedAdReward += Resume;
+        sdk.onRewardedAdClosed += Resume;
     }
 
     // Update is called once per frame
@@ -204,8 +204,14 @@ public class PlayerMovement : MonoBehaviour
         PauseScreen.SetActive(false);
     }
 
-    public void Resume(string placement)
+    public void Resume(int id)
     {
+        Resume();
+    }
+
+    public void ResumeAfterSleep()
+    {
+        System.Threading.Thread.Sleep(21000);
         Resume();
     }
 
