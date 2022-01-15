@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
     private GUIStyle style;
 
+    private YandexSDK sdk;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -67,6 +69,9 @@ public class PlayerMovement : MonoBehaviour
                 textColor = Color.white
             }
         };
+
+        sdk = YandexSDK.instance;
+        sdk.onRewardedAdReward += Resume;
     }
 
     // Update is called once per frame
@@ -197,6 +202,11 @@ public class PlayerMovement : MonoBehaviour
         timer.Start();
         Time.timeScale = 1;
         PauseScreen.SetActive(false);
+    }
+
+    public void Resume(string placement)
+    {
+        Resume();
     }
 
     private void ResetObstacles()
