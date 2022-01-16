@@ -209,12 +209,6 @@ public class PlayerMovement : MonoBehaviour
         Resume();
     }
 
-    public void ResumeAfterSleep()
-    {
-        System.Threading.Thread.Sleep(21000);
-        Resume();
-    }
-
     private void ResetObstacles()
     {
         foreach (var obstacle in Obstacles)
