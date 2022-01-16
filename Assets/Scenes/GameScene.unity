@@ -1892,7 +1892,7 @@ GameObject:
   - component: {fileID: 474785836}
   m_Layer: 5
   m_Name: preGameOver
-  m_TagString: Untagged
+  m_TagString: PreGameOverScreen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5372,6 +5372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1208064496}
   Freeze: {fileID: 68891095}
+  PreGameOverScreen: {fileID: 0}
   GameOverScreen: {fileID: 474785835}
   PauseScreen: {fileID: 1189957827}
   SettingsButton: {fileID: 1198462568}

@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D Player;
     public GameObject Freeze;
-    public GameObject PreGameOverScreen;
     public GameObject GameOverScreen;
     public GameObject PauseScreen;
     public GameObject SettingsButton;
@@ -70,8 +69,6 @@ public class PlayerMovement : MonoBehaviour
                 textColor = Color.white
             }
         };
-
-        PreGameOverScreen = GameObject.Find("preGameOver"); 
 
         sdk = YandexSDK.instance;
         sdk.onRewardedAdClosed += Resume;
@@ -205,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
         timer.Start();
         Time.timeScale = 1;
         PauseScreen.SetActive(false);
-        PreGameOverScreen.SetActive(false);
+        GameOverScreen.SetActive(false);
     }
 
     public void Resume(int id)
